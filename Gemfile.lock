@@ -107,7 +107,7 @@ PLATFORMS
 
 DEPENDENCIES
   duktape
-  jekyll (~> 4.1)
+  jekyll
   jekyll-compose
   jekyll-default-layout
   jekyll-feed
@@ -120,7 +120,7 @@ DEPENDENCIES
   jekyll-relative-links
   jekyll-seo-tag
   jekyll-sitemap
-  jekyll-theme-hydejack (~> 9.1.6)
+  jekyll-theme-hydejack
   jekyll-titles-from-headings
   kramdown-math-katex
   tzinfo-data
