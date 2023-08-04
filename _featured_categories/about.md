@@ -8,7 +8,7 @@ sitemap: true
 menu: true
 ---
 
-Hi, I'm Jonah. I'm a research fellow at the Berlin Social Science Center (WZB). I work broadly on intergroup relations in low capacity environments using a combination of survey and experimental methods. I also do work on package development and am author and maintainer of the Rinteract R package.
+Hi, I'm Jonah. I'm a research fellow at the Berlin Social Science Center (WZB). I work broadly on intergroup relations using a combination of survey and experimental methods. A broad overview of my projects can be found [here](https://jonfoong.github.io/projects). I also do work on dashboarding and package development in R and am currently transitioning to Python.
 
 <!--
 

@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: list
 title: 🍚
 sitemap: true
 cover: true
@@ -14,6 +14,3 @@ Hi, I'm Jonah! I'm a political science predoc at the Berlin Social Science Cente
 This website aims to showcase my work and data projects, as well as provide an avenue for musings from time to time.
 
 ## Latest Posts
-
-See [Posts](/posts/) for more
-{:.read-more}
