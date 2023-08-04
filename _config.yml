@@ -26,7 +26,7 @@ tagline: Data, Visuals, Life
 keywords: []
 
 # A (square) logo for your site.
-# If provided, it will be shown at the top of the sidebar.
+# If provided, it will be shown at the top of the sidebarf.
 # It also used by the `jekyll-seo-tag` plugin.
 logo: /assets/img/cropped_avatar.png
 
@@ -42,10 +42,15 @@ author:
 menu:
   - title: About
     url: /about/
-  - title: Packages
-    url: /packages/
   - title: Projects
     url: /projects/
+    menu:
+      - title: Intersectional discrimination in Kenya
+        url: /projects/kenya_int/
+      - title: Global evaluation of liberal ideals
+        url: /projects/lib_conjoint/
+      - title: Rinteract
+        url: https://github.com/jonfoong/Rinteract/
   - title: Dashboards
     url: /dashboards/
   - title: Writings
