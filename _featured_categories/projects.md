@@ -37,7 +37,7 @@ I contribute to the following software packages
 
 # Dashboards
 
-Data is all around us, yet too often it is either scattered or presented in ways that turn off mass publics. I believe dashboards are a good solution to this. Here are some dashboards I have worked on or are in the works. 
+Data is all around us, yet too often it is either scattered or presented in ways that turn off mass publics. Dashboards are a good solution to this. Here are some that I've worked on or are in the works.
 
 <a href="/projects/aus_gas_dashboard/"> **East Australia Gas Fundamentals** </a> <br>
 *- A live dashboard that scrapes and visualizes gas data in East Australia* 
