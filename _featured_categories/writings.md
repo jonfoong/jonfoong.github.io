@@ -1,22 +1,18 @@
 ---
 # Featured tags need to have either the `list` or `grid` layout (PRO only).
-layout: about
+layout: list
 
 # The title of the tag's page.
-title: Dashboards
+title: Writings
 
 # The name of the tag, used in a post's front matter (e.g. tags: [<slug>]).
-# slug points to folder in root
-slug: dashboards
+slug: writings
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 # description: >
-# (Optional) You can disable grouping posts by date.
-no_groups: true
-
-# Exclude this example category from the sitemap.
-# DON'T USE THIS SETTING IN YOUR CATEGORIES!
-sitemap: true
-
+grouped: true
 menu: true
+sitemap: true
 ---
+
+This blog is fairly new and so I am still populating this page. More to come!

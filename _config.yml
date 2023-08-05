@@ -44,15 +44,15 @@ menu:
     url: /about/
   - title: Projects
     url: /projects/
-    menu:
-      - title: Intersectional discrimination in Kenya
-        url: /projects/kenya_int/
-      - title: Global evaluation of liberal ideals
-        url: /projects/lib_conjoint/
-      - title: Rinteract
-        url: https://github.com/jonfoong/Rinteract/
-  - title: Dashboards
-    url: /dashboards/
+#    menu:
+#      - title: Intersectional discrimination in Kenya
+#        url: /projects/kenya_int/
+#      - title: Global evaluation of liberal ideals
+#        url: /projects/lib_conjoint/
+#      - title: Rinteract
+#        url: https://github.com/jonfoong/Rinteract/
+#  - title: Dashboards
+#    url: /dashboards/
   - title: Writings
     url: /writings/
 
@@ -81,8 +81,8 @@ paginate_path: /writings/:num/
 # Theme
 # ---------------------------------------------------------------------------------------
 
-theme: jekyll-theme-hydejack
-# remote_theme: hydecorp/hydejack@v9
+#theme: jekyll-theme-hydejack
+remote_theme: hydecorp/hydejack@v9
 
 
 # Customizaton
