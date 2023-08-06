@@ -23,9 +23,10 @@ sitemap: true
 In my time at the Berlin Social Science Center (WZB) I was involved in a number of academic projects, all of which are at various stages of the publishing cycle.
 
 <a href="/projects/kenya_int/"> **Intersectional Discrimination and Candidate Selection: Evidence from a Lab Experiment 
-in Kenya** </a> <br> *- with Macartan Humphreys, Lukas Antoine, Heiko Giebler, and Rasmus Ollroge*<br>
+in Kenya** </a> <br>*- with Macartan Humphreys and Kimuli Kasara* <br>
 
-<a href="/projects/lib_conjoint/"> **Liberalism in retreat? Assessing preference for liberal values through a large N conjoint experiment** </a> <br> *- with Macartan Humphreys and Kimuli Kasara*<br>
+<a href="/projects/lib_conjoint/"> **Liberalism in retreat? Assessing preference for liberal values through a large N conjoint experiment** </a> <br>*- with Macartan Humphreys, Lukas Antoine, Heiko Giebler, and Rasmus Ollroge* <br>
+
 
 # Software
 
