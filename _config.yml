@@ -82,8 +82,8 @@ paginate_path: /writings/:num/
 # change theme when building locally or remotely
 # ---------------------------------------------------------------------------------------
 
-theme: jekyll-theme-hydejack # use this when building locally
-#remote_theme: hydecorp/hydejack@v9 # use this when building remotely
+#theme: jekyll-theme-hydejack # use this when building locally
+remote_theme: hydecorp/hydejack@v9 # use this when building remotely
 
 
 # Customizaton
