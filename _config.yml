@@ -82,15 +82,15 @@ paginate_path: /writings/:num/
 # change theme when building locally or remotely
 # ---------------------------------------------------------------------------------------
 
-#theme: jekyll-theme-hydejack # use this when building locally
-remote_theme: hydecorp/hydejack@v9 # use this when building remotely
+theme: jekyll-theme-hydejack # use this when building locally
+#remote_theme: hydecorp/hydejack@v9 # use this when building remotely
 
 
 # Customizaton
 # ----------------------------------------------------------------------------------------
 
 # Sidebar image and theme color of the site.
-accent_image: /assets/img/sidebar2.jpg
+accent_image: /assets/img/sidebar.jpg
 accent_color: rgb(79,177,186)
 favicon: /assets/icons/favicon.ico
 
