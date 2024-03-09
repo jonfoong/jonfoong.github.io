@@ -158,7 +158,7 @@ Our script currently saves the scraping output onto googledrive, but this is not
 To do this, scroll down to the bottom of the container settings and click "add a volume mount". We will leave the volume type as directory - this means using the storage space of the VM we create. The mount path refers to the path within the container that our output will be saved, in this case `/out`. The host path refers to the path within the VM that we will link to the container. Note that not all host directories are writable - GCP specifies [here](https://cloud.google.com/container-optimized-os/docs/concepts/disks-and-filesystem) which directories we can write data in. We use here `/home/out` - there is no need to create the `out` directory in `/home`; GCP creates the directory automatically when mounting the volume if it does not already exist. For mode we change this to read/write because we want to be able to write files into this directory.
 
 <p align="center">
-  <img src="../../assets/img/blog/rscrapergcp_4.5.jpg" width="500"/>
+  <img src="../../assets/img/blog/rscrapergcp_4.5.JPG" width="500"/>
 </p>
 
 >After creating the VM, you can access the files anytime by SSH-ing into your VM. In the GCP console, go to your VM instances, and you will see a column "Connect" with the letters SSH underneath. Clicking on it when your VM is started will allow you to enter your VM and download the output by specifying the directory path. which in this case is `/home/out/<enter your filename>.csv`.
