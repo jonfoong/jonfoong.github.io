@@ -9,10 +9,7 @@ author1:
   email: jonahfoong@gmail.com
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: >
-    Hi, I'm Jonah. I'm a research fellow at the Berlin Social Science Center (WZB).
-    I work broadly on intergroup relations using a combination of survey and experimental methods.
-    A broad overview of my projects can be found [here](https://jonfoong.github.io/projects).
-    I also do work on dashboarding and package development in R and am currently transitioning to Python.
+    Hi, I'm Jonah. I'm a former research fellow at the Berlin Social Science Center (WZB) with my work employing a combination of survey and experimental methods. Currently I am transitioning to data science roles and am interested in ML, dashboarding, and cloud based tools (mainly GCP). A broad overview of my past and current projects can be found [here](https://jonfoong.github.io/projects/).
 
 # This photo will be used in the about section
   picture:
