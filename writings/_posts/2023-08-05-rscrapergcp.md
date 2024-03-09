@@ -20,7 +20,7 @@ This post assumes that you already know how to write a script to scrape web data
 
 # What you need
 
-For this guide you will need 1) a script that scrapes data from the web, 2) a Docker account, and 3) a Google Cloud Platform (GCP) account. Docker is necessary to "containerize" your script and GCP is needed to execute the containerized image at scheduled intervals. I will explain these terms in a moment. For the cloud option Azure and AWS are bigger players but I use GCP because I prefer staying within the Google architecture and it also gives new users $300 of free credits to play with. This is not to be scoffed at because if you do it right, your scraper should consume only minimal resources and $300 will go a long way.
+For this guide you will need 1) a script that scrapes data from the web, 2) a Docker account, and 3) a Google Cloud Platform (GCP) account. Docker is necessary to "containerize" your script and GCP is needed to execute the containerized image at scheduled intervals. I will explain these terms in a moment. There are other cloud options but I use GCP because I prefer staying within the Google architecture and it also gives new users $300 of free credits to play with. This is not to be scoffed at because if you do it right, your scraper should consume only minimal resources and $300 will go a long way.
 
 
 Let's assume you have a script that looks like this:
@@ -39,19 +39,21 @@ messi_goals <- url |>
   html_node("table.wikitable.sortable") |>
   html_table(fill = TRUE)
   
-write.csv(messi_goals, "messi_goals.csv")
+write.csv(messi_goals, "out/messi_goals.csv")
 
 ```
 
-This script returns a dataframe of all international goals scored by Lionel Messi for Argentina and saves it into the root directory as a CSV. If we want to schedule our scraper onto the cloud, we need our data to also be saved onto the cloud. R has access to many cloud options like Dropbox and Google Drive via the `rdrop2` and `googledrive` packages respectively. They work similarly except `rdrop2` is no longer regularly maintained at time of writing, and `googledrive` is part of the `tidyverse` suite of packages and so has excellent support. For that reason I recommend going with `googledrive` since this also allows us to stay within the Google architecture.
+This script returns a dataframe of all international goals scored by Lionel Messi for Argentina and saves it into `/out` as a CSV. 
+
+If we want to schedule our scraper onto the cloud, it is also likely that we want our data output to be saved on the cloud, in a way that we can access regularly. We can do this by saving it into any form of cloud storage - dropbox, googledrive, etc. Since we are using Google cloud later, I will demonstrate here how to save into a googledrive account.
 
 # Setting up a service account
 
-The first thing we need to do is to create a Google service account which you can do by following this [instructional](https://cloud.google.com/iam/docs/service-accounts-create). A service account gives you access to all of google drive's features (including storage), but unlike your personal google drive account there is no interactive UI. You communicate with the service account solely via the API and you can create as many of them as you want. They usually have an email designation that looks like "leo-messi-goals@<project-name>-12345.iam.gserviceaccount.com". After we've created the account, we also need to create a key that lets us authenticate without having to log in manually. Under the accounts page, look for the account you created and under Actions, click Manage keys. Click "add key" --> "create a new key" and choose the JSON option. A download window will immediately pop up - save this key into your scraper project folder as we will need it later. This is the only time you get to save the key - if you do not you will have to delete and create a new one again.
+The first thing we need to do is to create a Google service account which you can do by following this [instructional](https://cloud.google.com/iam/docs/service-accounts-create). A service account gives you access to all of google drive's features (including storage), but unlike your personal google drive account there is no interactive UI. You communicate with the service account solely via the API and you can create as many of them as you want. They usually have an email designation that looks like "leo-messi-goals@<project-name>-12345.iam.gserviceaccount.com". After we've created the account, we also need to create a key that lets us authenticate without having to log in manually. Under the accounts page, look for the account you created and under Actions, click Manage keys. Click "add key" -> "create a new key" and choose the JSON option. A download window will immediately pop up - save this key into your scraper project folder as we will need it later. This is the only time you get to save the key - if you do not you will have to delete and create a new one again.
 
 # Modify R script
 
-We now need to modify our script to save our scraped data onto the cloud. 
+We now need to modify our script to save our scraped data onto our googledrive. 
 
 ```
 library(rvest)
@@ -127,7 +129,7 @@ You can create any kind of Dockerfile you like but this is a good base to start 
 
 If `RUN` runs an R script, why do we specify `CMD` for our scraper? Docker runs each line sequentially when the image is created but `CMD` tells it to run *only when the image is pulled*. This means that installation is done *only once* when you build the image and every time you pull, Docker knows to execute only `CMD` commands and ignore all else above.
 
-Once you have configured your Dockerfile, save it in your root folder **without** any extensions under the name "Dockerfile". Go to your terminal in Rstudio (you can also use any other terminal but then you will need to cd into the directory which is cumbersome) and run `docker build -t <Docker username>/<repo name>:<tag name> .`. The -t flag specifies that you wish to tag the image. Think of tagging as versioning; you can create different versions of the same image under different tags. The period `.` after the tag is easily missed but important since it tells Docker to use the Dockerfile in your current directory. Your image should appear in the Docker GUI once it is finished building. From there, you can fire up a container from the image which will execute the script every time it's run. 
+Once you have configured your Dockerfile, save it in your root folder **without** any extensions under the name "Dockerfile". Go to your terminal in Rstudio and run `docker build -t <Docker username>/<repo name>:<tag name> .`. The -t flag specifies that you wish to tag the image. Think of tagging as versioning; you can create different versions of the same image under different tags. The period `.` after the tag is easily missed but important since it tells Docker to use the Dockerfile in your current directory. Your image should appear in the Docker GUI once it is finished building. From there, you can fire up a container from the image which will execute the script every time it's run. Remember also to push the image to Dockerhub since we will need to pull the image later.
 
 # Pulling the image from Google
 
@@ -137,25 +139,37 @@ To do this we will need to use a virtual machine (VM). A VM is a computer that l
 
 ## Creating a VM
 
-To create a VM, go to the Compute Engine sidebar option in your GCP console and click "create instance". Set the name, region, and zone to whatever is appropriate. Note that you can only deploy one image to one VM instance, so think about that when selecting the name. The region and zone is not referring to your physical location but rather where your resource will be hosted. If you’re deploying multiple resources Google recommends that you host them in different locations to reduce the risk of physical infrastructure failure. But if you’re a novice and a personal user like myself then it doesn’t make much difference. The default region and zone is ‘us-central-1a’, which I recommend you change to ‘us-west-1b’ since this will make creating the cloud functions easier later on. You also have to add a label, which is something your cloud function will identify your instance by. Enter "env" for key and whatever you want for value just as long as it matches the label for your cloud function later. For convenience we use Google’s example which is "dev".
+To create a VM, go to the Compute Engine sidebar option in your GCP console and click "create instance". Set the name, region, and zone to whatever is appropriate. Note that you can only deploy one image to one VM instance, so think about that when selecting the name. The region and zone is not referring to your physical location but rather where your resource will be hosted. If you’re deploying multiple resources Google recommends that you host them in different locations to reduce the risk of physical infrastructure failure. But if you’re a novice and a personal user like myself then it doesn’t make much difference. You also have to add a label, which is something your cloud function will identify your instance by. Enter "env" for key and whatever you want for value just as long as it matches the label for your cloud function later. For convenience we use Google’s example which is "dev".
 
 ![](../../assets/img/blog/rscrapergcp_2.jpg)
 
 For the machine configuration, it depends on how computationally intensive your scraper is. The standard option is the E2-medium which should be fine for most tasks. Note that the monthly price estimate that is shown is the cost of running the machine **perpetually** across an entire month. Your actual usage will be much lower than that because all you need to do is to turn on and off the machine whenever you need to scrape. For myself I pay only about $3 monthly to maintain 3-4 scrapers that run twice a day. 
 
-Once you've made a choice, scroll down and click "deploy container" under the Container option. For the image name, you need to specify the Docker image URL which follows the convention `docker.io/<username>/<docker-repo>:<tag>`. Make sure that your Docker repository is set to public first. If you want to run private images you will need to use Google's own Container Registry which you can check out [here](https://cloud.google.com/container-registry/docs/advanced-authentication). You can leave all other fields as the default.
-
-> If you need only to store data persistently but have no need to access it later on outside the container, GCP offers an option to mount a volume to your container. Think of the volume as a drive or a folder that is persistent no matter how many times your image is being pulled. I suggested google drive as the cloud storage medium because more often than not we want to be able to extract the scraped data and view or analyze it at a later stage. But mounting a volume is useful if you need to scrape data, save it somewhere first and turn off the scraper, then return to it later on to perform data manipulation or analysis using a different script.
+Once you've made a choice, scroll down and click "deploy container" under the Container option. For the image name, you need to specify the Docker image URL which follows the convention `docker.io/<username>/<docker-repo>:<tag>`. Make sure that your Docker repository is set to public first. If you want to run private images you will need to use Google's own Container Registry which you can check out [here](https://cloud.google.com/container-registry/docs/advanced-authentication).
 
 <p align="center">
   <img src="../../assets/img/blog/rscrapergcp_4.jpg" width="500"/>
 </p>
 
+### Persistent storage
+
+Our script currently saves the scraping output onto googledrive, but this is not necessary. Another way to do it is to mount a volume to your container. This allows you to "link" a directory in a container to an external directory. Files that are saved within the container are then visible in that mounted directory. We need to do this because containers are self-contained and once a container is killed, the files inside disappear. Because a VM is like a computer, it will also have persistent storage that we can use to "link" to the container directory. In this way the scraper output is saved into our VM instead of just into the container. 
+
+To do this, scroll down to the bottom of the container settings and click "add a volume mount". We will leave the volume type as directory - this means using the storage space of the VM we create. The mount path refers to the path within the container that our output will be saved, in this case `/out`. The host path refers to the path within the VM that we will link to the container. Note that not all host directories are writable - GCP specifies [here](https://cloud.google.com/container-optimized-os/docs/concepts/disks-and-filesystem) which directories we can write data in. We use here `/home/out` - there is no need to create the `out` directory in `/home`; GCP creates the directory automatically when mounting the volume if it does not already exist. For mode we change this to read/write because we want to be able to write files into this directory.
+
+<p align="center">
+  <img src="../../assets/img/blog/rscrapergcp_4.5.jpg" width="500"/>
+</p>
+
+>After creating the VM, you can access the files anytime by SSH-ing into your VM. In the GCP console, go to your VM instances, and you will see a column "Connect" with the letters SSH underneath. Clicking on it when your VM is started will allow you to enter your VM and download the output by specifying the directory path. which in this case is `/home/out/<enter your filename>.csv`.
+
 Finally, for the boot disk you can choose from a list of OS versions and sizes but I find it better to leave it as default. GCP has increased its prices from a few years ago when I first started, up from $0.04/month/GB to $0.10/month/GB, but this is still very affordable. When you’re all done, click create and voila, your VM instance will be up and running! 
 
 ## Scheduling a VM to turn on and off at intervals
 
-Currently our scraper only scrapes each time the VM is turned on, so what we want is to be able to turn it off and on at regular intervals. For this we will use GCP's Cloud Function and Cloud Scheduler. The entire process is not difficult but requires many steps, all of which Google have outlined in a well written [guide](https://cloud.google.com/scheduler/docs/start-and-stop-compute-engine-instances-on-a-schedule#console_2). Rather than repeat these steps it's far easier if you follow those instructions and then come back here. If you’re having trouble with the cron format there’s a good resource [here](https://crontab.guru/) for you to cross reference.
+Currently our scraper only scrapes each time the VM is turned on, so what we want is to be able to turn it off and on at regular intervals. For this we will use GCP's Cloud Function and Cloud Scheduler. The entire process is not difficult but requires many steps, all of which Google have outlined in a well written [guide](https://cloud.google.com/scheduler/docs/start-and-stop-compute-engine-instances-on-a-schedule#console_2). Rather than repeat these steps it's far easier if you follow those instructions and then come back here.
+
+<!--
 
 # Checking that your scraper works
 
@@ -169,6 +183,8 @@ pushover(message = 'drive updated',
          app = "<ADD APP KEY HERE>")
          
 ```
+
+-->
 
 # Concluding thoughts
 
