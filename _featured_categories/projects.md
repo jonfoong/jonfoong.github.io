@@ -27,6 +27,8 @@ in Kenya** </a> <br>*- with Macartan Humphreys and Kimuli Kasara* <br>
 
 <a href="/projects/lib_conjoint/"> **Liberalism in retreat? Assessing preference for liberal values through a large N conjoint experiment** </a> <br>*- with Macartan Humphreys, Lukas Antoine, Heiko Giebler, and Rasmus Ollroge* <br>
 
+**Can community driven development effect vertical cohesion? Evidence from the ACE project in Lebanon (ongoing)** </a> <br>*- with Nora Chirikure and Macartan Humphreys* <br>
+
 
 # Software
 
@@ -38,12 +40,15 @@ I contribute to the following software packages
 
 # Dashboards
 
-Data is all around us, yet too often it is either scattered or presented in ways that turn off mass publics. Dashboards are a good solution to this. Here are some that I've worked on or are in the works.
+Here are some dashboards that I've worked on or are in the works.
 
 <a href="/projects/aus_gas_dashboard/"> **East Australia Gas Fundamentals** </a> <br>
 *- A live dashboard that scrapes and visualizes gas data in East Australia* 
 
-**Singapore Parliament Speeches** (*coming soon!*)
+<a href="/projects/sg_parl_speeches/">**Singapore Parliament Speeches** (*still in the works*)
+
+<a href="/projects/precrime_chicago/"> **Predictive crime analytics for Chicago (not maintained)** </a> <br>
+*- Capstone project for Le Wagon bootcamp in Data Science and AI in Python* 
 
 
 
